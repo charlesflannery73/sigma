@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div>
+    <h1>Sigs</h1>
+    <table class="table table-bordered table-condensed">
+        <tr>
+            <th>Text</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Reference</th>
+            <th>Comment</th>
+            <th>Created</th>
+            <th>Modified</th>
+            <th>Expires</th>
+            {% if perms.web.delete_signature %}
+            <th>Modify</th>
+            {% endif %}
+        </tr>
+        {% for object in object_list %}
+        <tr>
+            <td>{{object.text}}</td>
+            <td>{{object.type}}</td>
+            <td>{{object.status}}</td>
+            <td>{{object.reference}}</td>
+            <td>{{object.comment|linebreaks}}</td>
+            <td>{{object.created|date:"Y-m-d H:i:s"}}</td>
+            <td>{{object.modified|date:"Y-m-d H:i:s"}}</td>
+            <td>{{object.expiry|date:"Y-m-d"}}</td>
+            {% if perms.web.delete_signature %}
+            <td><a href="{% url 'sig-update' object.id %}">update</a>
+                <a href="{% url 'sig-delete' object.id %}">delete</a>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+
+    </table>
+    {% if is_paginated %}
+      {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info mb-4" href="?{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}{{ key }}={{ value }}&{% endifnotequal %}{% endfor %}page=1">First</a>
+        <a class="btn btn-outline-info mb-4" href="?{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}{{ key }}={{ value }}&{% endifnotequal %}{% endfor %}page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <a class="btn btn-info mb-4" href="?{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}{{ key }}={{ value }}&{% endifnotequal %}{% endfor %}page={{ num }}">{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+          <a class="btn btn-outline-info mb-4" href="?{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}{{ key }}={{ value }}&{% endifnotequal %}{% endfor %}page={{ num }}">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+      {% if page_obj.has_next %}
+        <a class="btn btn-outline-info mb-4" href="?{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}{{ key }}={{ value }}&{% endifnotequal %}{% endfor %}page={{ page_obj.next_page_number }}">Next</a>
+        <a class="btn btn-outline-info mb-4" href="?{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}{{ key }}={{ value }}&{% endifnotequal %}{% endfor %}page={{ page_obj.paginator.num_pages }}">Last</a>
+      {% endif %}
+    {% endif %}
+</div>
+{% endblock content %}

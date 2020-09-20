@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+{% if user.is_authenticated %}
+    <h2>Recent Type updates</h2>
+    <table class="table table-bordered table-condensed">
+        <tr>
+            <th>Name</th>
+            <th>Comment</th>
+            <th>Created</th>
+            <th>Modified</th>
+            {% if perms.web.change_type %}
+            <th>Modify</th>
+            {% endif %}
+        </tr>
+        {% for type in types %}
+        <tr>
+            <td>{{type.name}}</td>
+            <td>{{type.comment|linebreaks}}</td>
+            <td>{{type.created|date:"Y-m-d H:i:s"}}</td>
+            <td>{{type.modified|date:"Y-m-d H:i:s"}}</td>
+            {% if perms.web.change_type %}
+            <td><a href="{% url 'type-update' type.id %}">update</a>
+                <a href="{% url 'type-delete' type.id %}">delete</a>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+
+    </table>
+<br>
+    <h2>Recent Signature updates</h2>
+    <table class="table table-bordered table-condensed">
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Reference</th>
+            <th>Comment</th>
+            <th>Created</th>
+            <th>Modified</th>
+            <th>Expires</th>
+            {% if perms.web.change_signature %}
+            <th>Modify</th>
+            {% endif %}
+        </tr>
+        {% for sig in sigs %}
+        <tr>
+            <td>{{sig.text}}</td>
+            <td>{{sig.type}}</td>
+            <td>{{sig.status}}</td>
+            <td>{{sig.reference}}</td>
+            <td>{{sig.comment|linebreaks}}</td>
+            <td>{{sig.created|date:"Y-m-d H:i:s"}}</td>
+            <td>{{sig.modified|date:"Y-m-d H:i:s"}}</td>
+            <td>{{sig.expiry|date:"Y-m-d"}}</td>
+            {% if perms.web.change_signature %}
+            <td><a href="{% url 'sig-update' sig.id %}">update</a>
+                <a href="{% url 'sig-delete' sig.id %}">delete</a>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+
+    </table>
+{% else %}
+Please login to use sigma
+{% endif %}
+{% endblock content %}

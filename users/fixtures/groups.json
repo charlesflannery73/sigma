@@ -1,0 +1,17 @@
+[
+{
+    "model": "auth.group",
+    "pk": 1,
+    "fields": {
+        "name": "sigma_manager",
+        "permissions": [
+            33,
+            34,
+            35,
+            29,
+            30,
+            31
+        ]
+    }
+}
+]
