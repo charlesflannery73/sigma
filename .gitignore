@@ -5,5 +5,4 @@ __pycache__
 .venv
 .swp
 .log
-.env
 000*.py
