@@ -59,11 +59,12 @@ class SigSearch(LoginRequiredMixin, SearchListView):
         form = self.form_class(request.POST)
         if form.is_valid():
             text = form.cleaned_data['search_text']
-            type = form.cleaned_data['search_type']
+            sigtype = form.cleaned_data['search_type']
             status = form.cleaned_data['search_status']
             expiry = form.cleaned_data['search_expiry']
+            reference = form.cleaned_data['search_reference']
             comment = form.cleaned_data['search_comment']
-            params = "text=" + text + "&status=" + status + "&expiry=" + expiry + "&type=" + type + "&comment=" + comment
+            params = "text=" + text + "&status=" + status + "&expiry=" + expiry + "&type=" + sigtype + "&reference=" + reference + "&comment=" + comment
             logger.info("user=" + str(self.request.user) + ", action=search_sigs, data=[" + params + "]")
             return HttpResponseRedirect(reverse('sig-list') +'?%s' % params)
 
@@ -163,7 +164,7 @@ class SigListView(LoginRequiredMixin, ListView):
     paginate_by = 20
 
     def get_queryset(self):
-        if self.request.GET.get('name') == None:
+        if self.request.GET.get('text') == None:
             logger.info("user=" + str(self.request.user) + ", action=list, data=[sigs]")
             return Signature.objects.filter().order_by('text')
         text_val = self.request.GET.get('text')
@@ -194,7 +195,7 @@ class SigCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         expiry = form.cleaned_data['expiry']
         reference = form.cleaned_data['reference']
         comment = form.cleaned_data['comment']
-        data = "text=" + text + ", type=" + str(type) + ", status=" + status + ", expiry=" + expiry + ", reference=" + reference + ", comment=" + comment
+        data = "text=" + text + ", type=" + str(type) + ", status=" + status + ", expiry=" + str(expiry) + ", reference=" + reference + ", comment=" + comment
         logger.info("user=" + str(self.request.user) + ", action=create_sig, data=[" + data + "]")
         return super().form_valid(form)
 
@@ -212,7 +213,7 @@ class SigUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         expiry = form.cleaned_data['expiry']
         reference = form.cleaned_data['reference']
         comment = form.cleaned_data['comment']
-        data = "text=" + text + ", type=" + str(type) + ", status=" + status + ", expiry=" + expiry + ", reference=" + reference + ", comment=" + comment
+        data = "text=" + text + ", type=" + str(type) + ", status=" + status + ", expiry=" + str(expiry) + ", reference=" + reference + ", comment=" + comment
         logger.info("user=" + str(self.request.user) + ", action=update_sig, data=[" + data + "]")
         return super().form_valid(form)
 
@@ -230,6 +231,6 @@ class SigDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
         expiry = self.object.expiry
         reference = self.object.reference
         comment = self.object.comment
-        data = "text=" + text + ", type=" + str(type) + ", status=" + status + ", expiry=" + expiry + ", reference=" + reference + ", comment=" + comment
+        data = "text=" + text + ", type=" + str(type) + ", status=" + status + ", expiry=" + str(expiry) + ", reference=" + reference + ", comment=" + comment
         logger.info("user=" + str(self.request.user) + ", action=delete_sig, data=[" + data + "]")
         return super(SigDeleteView, self).delete(*args, **kwargs)

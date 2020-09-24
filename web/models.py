@@ -1,4 +1,7 @@
 from django.db import models
+import datetime
+import timedelta
+from django.utils import timezone
 
 
 class Type(models.Model):
@@ -28,11 +31,11 @@ class Signature(models.Model):
     ]
     text = models.TextField(null=False, unique=True)
     type = models.ForeignKey(Type, on_delete=models.PROTECT)
-    reference = models.CharField(max_length=255, null=False, unique=True)
+    reference = models.CharField(max_length=255, null=False)
     comment = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-    expiry = models.DateField(null=False, default='2099-12-31')
+    expiry = models.DateField(null=False, default=datetime.date.today() + timezone.timedelta(91))
     status = models.CharField(max_length=255, choices=STATUS, default=ENABLED)
 
 

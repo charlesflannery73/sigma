@@ -33,3 +33,5 @@ urllib3==1.25.8
 uuid==1.30
 validators==0.14.2
 whois==0.9.6
+
+django-timedeltafield~=0.7.10
