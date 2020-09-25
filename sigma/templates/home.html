@@ -45,7 +45,7 @@
         </tr>
         {% for sig in sigs %}
         <tr>
-            <td>{{sig.text}}</td>
+            <td>{{sig.text|linebreaks}}</td>
             <td>{{sig.type}}</td>
             <td>{{sig.status}}</td>
             <td>{{sig.reference}}</td>
