@@ -3,5 +3,35 @@
 <h1>Sigma About Page</h1>
 
 <h3>API Quick start guide</h3>
+List all signatures<br>
+curl -s -k -H "Authorization: Token your-api-key"  -H "content-type: application/json" https://hostname:port/api/v1/sig/<br>
+<br>
+List all types<br>
+curl -s -k -H "Authorization: Token your-api-key"  -H "content-type: application/json" https://hostname:port/api/v1/type/<br>
+<br>
+List one signature by sig_id<br>
+curl -s -k -H "Authorization: Token your-api-key"  -H "content-type: application/json" https://hostname:port/api/v1/sig/1/<br>
+<br>
+List one type by type id<br>
+curl -s -k -H "Authorization: Token your-api-key"  -H "content-type: application/json" https://hostname:port/api/v1/type/1/<br>
+<br>
+Search types (exact match) by name, id, (partial match) by name_like, comment<br>
+curl -s -k -H "Authorization: Token your-api-key"  -H "content-type: application/json" https://hostname:port/api/v1/type/?name=md5<br>
+<br>
+Search signature (exact match) by type, type_id, text, id, type, (partial match) by type_like, text_like, comment<br>
+curl -s -k -H "Authorization: Token your-api-key"  -H "content-type: application/json" https://hostname:port/api/v1/sig/?type=snort<br>
+<br>
+Create new type<br>
+curl -X POST -s -k -H "Authorization: Token your-api-key"  -H "content-type: application/json" http://127.0.0.1:8000/api/v1/type/ -d '{"name":"ja3", "comment": "ssl fingerprint md5hash"}'<br>
+<br>
+Create new signature (must know the type_id)<br>
+curl -X POST -s -k -H "Authorization: Token your-api-key"  -H "content-type: application/json" http://127.0.0.1:8000/api/v1/sig/ -d '{"text":"baddomain.com", "type":"bad_domain"}'<br>
+<br>
+Delete type by type id (successful delete returns a 204 No Content)<br>
+This will fail if the type has signatures related to it. Signatures related to a type must be deleted first before the type will delete successfully<br>
+curl -X DELETE -s -k -H "Authorization: Token your-api-key"  -H "content-type: application/json" http://127.0.0.1:8000/api/v1/type/5/<br>
+<br>
+Delete signature by sig id (successful delete returns a 204 No Content)<br>
+curl -X DELETE -s -k -H "Authorization: Token your-api-key"  -H "content-type: application/json" http://127.0.0.1:8000/api/v1/sig/7/<br>
 
 {% endblock content %}

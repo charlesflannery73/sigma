@@ -13,7 +13,15 @@ ul {
 }
 
 .bg-steel {
-  background-color: #5f788a;
+  background-color: #c91a16;
+}
+
+.btn-color {
+  background-color: #c91a16;
+}
+
+.btn-color:hover {
+  background-color: #8c110e;
 }
 
 .site-header .navbar-nav .nav-link {
