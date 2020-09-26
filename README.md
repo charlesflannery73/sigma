@@ -1,2 +1,2 @@
-# sigma2
+# sigma
 Django implementation of sigma
