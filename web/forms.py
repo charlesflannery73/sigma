@@ -25,9 +25,17 @@ class SigSearchForm(forms.Form):
         required=False,
         label='status'
     )
-    search_expiry = forms.CharField(
+
+    search_expiry_before = forms.CharField(
         required=False,
-        label='expiry'
+        label='expires before',
+        widget = forms.TextInput(attrs={'placeholder': 'yyyy-mm-dd'}),
+    )
+
+    search_expiry_after = forms.CharField(
+        required=False,
+        label='expires after',
+        widget = forms.TextInput(attrs={'placeholder': 'yyyy-mm-dd'}),
     )
     search_reference = forms.CharField(
         required=False,

@@ -10,7 +10,7 @@ from django.db.models import Q
 from django.urls import reverse
 import logging
 from django.contrib import messages
-
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +35,8 @@ class SigFilter(BaseFilter):
         'search_text': ['text'],
         'search_type': ['type__name'],
         'search_status': ['status'],
-        'search_expiry': ['expiry'],
+        'search_expiry_before': ['expiry'],
+        'search_expiry_after': ['expiry'],
         'search_reference': ['reference'],
         'search_comment': ['comment'],
     }
@@ -61,10 +62,16 @@ class SigSearch(LoginRequiredMixin, SearchListView):
             text = form.cleaned_data['search_text']
             sigtype = form.cleaned_data['search_type']
             status = form.cleaned_data['search_status']
-            expiry = form.cleaned_data['search_expiry']
+            expires_before = form.cleaned_data['search_expiry_before']
+            expires_after = form.cleaned_data['search_expiry_after']
+            pattern = re.compile("^[0-9]{4}-[0-9]{2}-[0-9]{2}$")
+            if not pattern.match(expires_after):
+                expires_after = '1970-01-01'
+            if not pattern.match(expires_before):
+                expires_before = '2099-12-31'
             reference = form.cleaned_data['search_reference']
             comment = form.cleaned_data['search_comment']
-            params = "text=" + text + "&status=" + status + "&expiry=" + expiry + "&type=" + sigtype + "&reference=" + reference + "&comment=" + comment
+            params = "text=" + text + "&status=" + status + "&expires_before=" + expires_before + "&expires_after=" + expires_after + "&type=" + sigtype + "&reference=" + reference + "&comment=" + comment
             logger.info("user=" + str(self.request.user) + ", action=search_sigs, data=[" + params + "]")
             return HttpResponseRedirect(reverse('sig-list') +'?%s' % params)
 
@@ -169,12 +176,16 @@ class SigListView(LoginRequiredMixin, ListView):
             return Signature.objects.filter().order_by('text')
         text_val = self.request.GET.get('text')
         status_val = self.request.GET.get('status')
+        expires_before_val = self.request.GET.get('expires_before')
+        expires_after_val = self.request.GET.get('expires_after')
         reference_val = self.request.GET.get('reference')
         type_val = self.request.GET.get('type')
         comment_val = self.request.GET.get('comment')
         new_context = Signature.objects.filter(
             Q(text__icontains=text_val) &
             Q(status__icontains=status_val) &
+            Q(expiry__gte=expires_after_val) &
+            Q(expiry__lte=expires_before_val) &
             Q(type__name__icontains=type_val) &
             Q(reference__icontains=reference_val) &
             Q(comment__icontains=comment_val)
