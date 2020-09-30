@@ -20,7 +20,9 @@ class HomeView(LoginRequiredMixin, View):
         logger.info("user=" + str(self.request.user) + ", action=view, data=[home_page]")
         types = Type.objects.filter().order_by('-modified')[:5]
         sigs = Signature.objects.filter().order_by('-modified')[:5]
-        return render(request, 'home.html', {'types': types, 'sigs': sigs})
+        expired = Signature.objects.filter(status='expired').order_by('-modified')[:5]
+        expiring = Signature.objects.filter(status='enabled').order_by('expiry')[:5]
+        return render(request, 'home.html', {'types': types, 'sigs': sigs, 'expired': expired, 'expiring': expiring})
 
 
 class AboutView(LoginRequiredMixin, View):

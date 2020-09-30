@@ -19,7 +19,7 @@
         </tr>
         {% for object in object_list %}
         <tr>
-            <td>{{object.text}}</td>
+            <td>{{object.text|linebreaks}}</td>
             <td>{{object.type}}</td>
             <td>{{object.status}}</td>
             <td>{{object.reference}}</td>

@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
     'crispy_forms',
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'kronos'
 ]
 
 MIDDLEWARE = [

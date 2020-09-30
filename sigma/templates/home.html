@@ -62,6 +62,76 @@
         {% endfor %}
 
     </table>
+<br>
+    <h2>Recent Expired Signatures</h2>
+    <table class="table table-bordered table-condensed">
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Reference</th>
+            <th>Comment</th>
+            <th>Created</th>
+            <th>Modified</th>
+            <th>Expires</th>
+            {% if perms.web.change_signature %}
+            <th>Modify</th>
+            {% endif %}
+        </tr>
+        {% for exp in expired %}
+        <tr>
+            <td>{{exp.text|linebreaks}}</td>
+            <td>{{exp.type}}</td>
+            <td>{{exp.status}}</td>
+            <td>{{exp.reference}}</td>
+            <td>{{exp.comment|linebreaks}}</td>
+            <td>{{exp.created|date:"Y-m-d H:i:s"}}</td>
+            <td>{{exp.modified|date:"Y-m-d H:i:s"}}</td>
+            <td>{{exp.expiry|date:"Y-m-d"}}</td>
+            {% if perms.web.change_signature %}
+            <td><a href="{% url 'sig-update' exp.id %}">update</a>
+                <a href="{% url 'sig-delete' exp.id %}">delete</a>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+
+    </table>
+<br>
+    <h2>Next to Expire Signatures</h2>
+    <table class="table table-bordered table-condensed">
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Reference</th>
+            <th>Comment</th>
+            <th>Created</th>
+            <th>Modified</th>
+            <th>Expires</th>
+            {% if perms.web.change_signature %}
+            <th>Modify</th>
+            {% endif %}
+        </tr>
+        {% for exp in expiring %}
+        <tr>
+            <td>{{exp.text|linebreaks}}</td>
+            <td>{{exp.type}}</td>
+            <td>{{exp.status}}</td>
+            <td>{{exp.reference}}</td>
+            <td>{{exp.comment|linebreaks}}</td>
+            <td>{{exp.created|date:"Y-m-d H:i:s"}}</td>
+            <td>{{exp.modified|date:"Y-m-d H:i:s"}}</td>
+            <td>{{exp.expiry|date:"Y-m-d"}}</td>
+            {% if perms.web.change_signature %}
+            <td><a href="{% url 'sig-update' exp.id %}">update</a>
+                <a href="{% url 'sig-delete' exp.id %}">delete</a>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+
+    </table>
 {% else %}
 Please login to use sigma
 {% endif %}
