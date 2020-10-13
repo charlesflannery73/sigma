@@ -22,6 +22,7 @@ python manage.py makemigrations
 python manage.py migrate
 python manage.py loaddata groups
 python manage.py createsuperuser
+python manage.py installtasks
 python manage.py runserver
 ```
 # For deployment
