@@ -120,6 +120,10 @@ class SigViewSet(viewsets.ModelViewSet):
         if id is not None:
             queryset = queryset.filter(id=id)
 
+        status = self.request.query_params.get('status', None)
+        if status is not None:
+            queryset = queryset.filter(status=status)
+
         reference = self.request.query_params.get('reference', None)
         if reference is not None:
             queryset = queryset.filter(reference=reference)

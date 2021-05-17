@@ -30,7 +30,7 @@ class Signature(models.Model):
     ]
     text = models.TextField(null=False, unique=True)
     type = models.ForeignKey(Type, on_delete=models.PROTECT)
-    reference = models.CharField(max_length=255, null=False)
+    reference = models.CharField(max_length=255, blank=True)
     comment = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
