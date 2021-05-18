@@ -73,7 +73,7 @@ def validate_key():
             f.close()
         except:
             verbose("error saving apikey to " + saved_api_file)
-        return args.api
+        return args.key
     else:
         verbose("no apikey given, checking for a saved one in " + saved_api_file)
         try:
