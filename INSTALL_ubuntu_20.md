@@ -5,7 +5,7 @@ https://www.shellvoide.com/hacks/installing-django-application-with-nginx-mysql-
 
 # Install dependant packages for Ubuntu 20.04
 ```
-sudo apt-get install python3-venv nginx mysql-server python3-pip default-libmysqlclient-dev ufw unzip gcc libpq-dev python3-dev -y
+sudo apt-get install python3-venv nginx mysql-server python3-pip libmysqlclient-dev ufw unzip gcc libpq-dev python3-dev -y
 ```
 
 # For development
@@ -37,7 +37,7 @@ python manage.py runserver
 + remove test database
 + reload privileges
 ```
-sudo mysql -p
+sudo mysql
 
 CREATE DATABASE sigma;
 CREATE USER 'sigmauser'@'localhost' IDENTIFIED BY 'password_change_me';
@@ -58,10 +58,10 @@ unzip sigma_bundle.zip
 cd sigma
 python3 -m venv .venv --prompt sigma
 source .venv/bin/activate
-pip install --upgrade pip
 
 # if connected to internet
 pip install --upgrade pip
+pip install wheel
 pip install -r requirements.txt
 
 # if offline

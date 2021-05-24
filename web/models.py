@@ -28,7 +28,7 @@ class Signature(models.Model):
         (PENDING, 'pending'),
         (EXPIRED, 'expired'),
     ]
-    text = models.TextField(null=False, unique=True)
+    text = models.TextField(null=False)
     type = models.ForeignKey(Type, on_delete=models.PROTECT)
     reference = models.CharField(max_length=255, blank=True)
     comment = models.TextField(blank=True)
