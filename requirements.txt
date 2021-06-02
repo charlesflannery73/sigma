@@ -34,7 +34,7 @@ six==1.14.0
 sqlparse==0.3.0
 Token==1.8.6
 uritemplate==3.0.1
-urllib3==1.25.8
+urllib3==1.26.5
 uuid==1.30
 validators==0.14.2
 whois==0.9.6
