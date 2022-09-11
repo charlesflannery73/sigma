@@ -56,7 +56,7 @@ class SigSearch(LoginRequiredMixin, SearchListView):
     template_name = "web/search.html"
     form_class = SigSearchForm
     filter_class = SigFilter
-    ordering = ['name']
+    ordering = ['text']
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
